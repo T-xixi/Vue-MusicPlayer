@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <!-- 网站说明 -->
+    <meta name="description" content="好用的音乐播放器，歌曲搜索，MV播放应有尽有">
+    <!-- 关键字 -->
+    <meta name="keywords" content="音乐，音乐播放器，歌曲，歌词，MV">
+    <!-- 引入ico图标 -->
+    <link rel="shortcut icon" href="music.ico">
+    <!-- 引入初始化样式 -->
+    <link rel="stylesheet" href="./css/base.css">
+    <!-- 引入共用样式 -->
+    <link rel="stylesheet" href="./css/common.css">
+
+</head>
+
+<body>
+    <div class="w">
+        <div class="main" id="player">
+            <section class="search">
+                <img src="./images/person.png" alt="">
+                <input type="text" @keyup.enter="searchMusic" v-model="keywords">
+                <!-- <button>
+            <img src="./images/zoom.png" alt="">      
+                </button> -->
+
+
+            </section>
+            <section class="center">
+                <div class="songs">
+                    <ul class="songs_list">
+                        <li v-for="item in musicList">
+                            <a href="javascript:;" @click="playMusic(item.id)"></a>
+                            <b>
+                            {{item.name}}
+                           </b>
+                            <span v-if="item.mvid!=0" @click="playMv(item.mvid)"><i></i></span>
+                        </li>
+
+                    </ul>
+                    <img src="./images/line.png" alt="" class="line_right">
+
+                </div>
+
+                <div class="disc" :class="{playing:isPlaying}">
+
+                    <img src="./images/player_bar.png" class="play_bar" alt="">
+                    <img src="./images/disc.png" class="discplay aRotate" alt="">
+                    <img :src="musicCover" class="cover aRotate" alt="">
+                    <img src="./images/line.png" alt="" class="line_right">
+                </div>
+                <div class="comments">
+
+                    <h4>热门留言</h4>
+                    <div class="comments_list">
+                        <dl v-for="item in hotComments">
+                            <dt> 
+                               <img :src="item.user.avatarUrl" alt="">
+                           </dt>
+                            <dd class="name">{{item.user.nickname}}</dd>
+                            <dd class="details">
+                                {{item.content}}
+                            </dd>
+                        </dl>
+                    </div>
+
+
+                </div>
+            </section>
+
+            <section class="audio">
+                <audio ref='audio' :src="musicUrl" controls="controls" @play="playOn" @pause="pause" autoplay="autoplay" loop="loop" class="myaudio"></audio>
+            </section>
+            <section class="video" v-show="isShow" style="display: none;">
+                <video :src="mvUrl" controls="controls"></video>
+                <div class="mask" @click="hide">
+
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
